@@ -12,10 +12,12 @@ export default class Selector extends React.PureComponent {
         index = props.values.length-1
       }
       props.onChange(props.values[index])
+      props.onChangeIndex(index);
     }
     function incr() {
       index = (index + 1) % props.values.length;
-      props.onChange(props.values[index])
+      props.onChange(props.values[index],index)
+      props.onChangeIndex(index);
     }
     return (
       <div>
@@ -27,5 +29,6 @@ export default class Selector extends React.PureComponent {
 }
 
 Selector.defaultProps = {
-  onChange: () => {}
+  onChange: () => {},
+  onChangeIndex: () => {}
 }
