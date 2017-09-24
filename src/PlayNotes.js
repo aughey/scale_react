@@ -34,6 +34,9 @@ export default class PlayNotes extends React.Component {
     var pattern = new Tone.Pattern(function(time, note) {
       synth.triggerAttackRelease(note, "" + interval + "n", time);
     }, notes, "up");
+    pattern.interval = "" + interval + 'n'
+    Tone.Transport.bpm.value = props.bpm;
+
     this.pattern = pattern;
 
     if (this.state.playing) {

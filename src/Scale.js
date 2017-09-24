@@ -64,7 +64,6 @@ export default class Scale extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playing: false,
       bpm: 120,
       key: 'C',
       interval: 'Half Note',
@@ -149,9 +148,6 @@ export default class Scale extends React.Component {
         <pre>
         {JSON.stringify(s,null,2)}
       </pre>
-        <Button onClick={this.toggleState('playing')} raised>{s.playing
-            ? "Play"
-            : "Pause"}</Button>
         <Slider labels={{
           120: "BPM"
         }} min={90} max={160} value={s.bpm} onChange={this.setStateValue('bpm')}/>
@@ -166,7 +162,7 @@ export default class Scale extends React.Component {
           this.toggleState('updown')
         } />} label="Up and Down"/>
         <Selector onChange={this.setStateValue('pattern')} values={patterns.map(p => p.title)} value={s.pattern} title="Patterns"/> {patternhtml}
-        <PlayNotes interval={interval_int} notes={notes}/>
+        <PlayNotes bpm={s.bpm} interval={interval_int} notes={notes}/>
         <DrawScore keysig={s.key} interval={interval_int} notes={notes}/>
       </div>
     );
