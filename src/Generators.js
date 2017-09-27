@@ -4,7 +4,7 @@ export function scale(props) {
   console.log("Making scale")
   var note = props.key + props.octave;
   var starting_note = props["Root Note_index"];
-    var count = props.count
+  var count = props.count
   var pattern = [
     2,
     2,
@@ -16,10 +16,11 @@ export function scale(props) {
   ];
   var pattern_index = 0;
 
-   note = new Tone.Frequency(note);
+  note = new Tone.Frequency(note);
 
   // Push through to find the actual starting note for this key
-  var i,t;
+  var i,
+    t;
   for (i = 0; i < starting_note; ++i) {
     t = pattern[pattern_index];
     note = note.transpose(t);
@@ -27,7 +28,7 @@ export function scale(props) {
   }
 
   var res = [note.toNote()];
-  for ( i = 0; i < count; ++i) {
+  for (i = 0; i < count; ++i) {
     for (var p = 0; p < pattern.length; ++p) {
       t = pattern[pattern_index];
       pattern_index = (pattern_index + 1) % pattern.length;
@@ -38,6 +39,14 @@ export function scale(props) {
   return res;
 }
 
+export function tonalizations(props) {
+  return 'G4 B4 D5 G5 A5 B5 A5 G5 D5 E5 D5 B4 G4 D4 B3 D4 G3'.split(' ');
+}
+
+export function drone(props) {
+  return [props.Note + props.octave]
+}
+
 export function interval(props) {
   console.log("Making interval")
   console.log(props);
@@ -46,16 +55,16 @@ export function interval(props) {
     "Root Note_index": 0
   }); // Force the scale to start on the root
   var pedal_index = props["Pedal Tone_index"];
-      var repeat = s[pedal_index];
-      var out = [repeat];
-      s.forEach(function(n) {
-        if(n === repeat) {
-          return;
-        }
-        out.push(n);
-        if(n !== repeat) {
-          out.push(repeat);
-        }
-      });
-      return out;
+  var repeat = s[pedal_index];
+  var out = [];
+  s.forEach(function(n) {
+    if (n === repeat) {
+      return;
+    }
+    for (var i = 0; i < props["Repeat Count"]; ++i) {
+      out.push(repeat);
+      out.push(n);
+    }
+  });
+  return out;
 }

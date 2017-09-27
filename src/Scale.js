@@ -38,6 +38,8 @@ const note_values = [
   '8th'
 ]
 
+const allNotes = ('c c# d d# e f f# g g# a a# b'.toUpperCase().split(' '))
+
 var patterns = [
   {
     title: "Scale",
@@ -55,7 +57,26 @@ var patterns = [
       {
         title: "Pedal Tone",
         values: note_values
+      },
+      {
+        title: "Repeat Count",
+        values: [1,2,3,4]
       }
+    ]
+  },
+  {
+    title: "Tonalizations",
+    generate: Generators.tonalizations,
+    parameters: []
+  },
+  {
+    title: "Drone",
+    generate: Generators.drone,
+    parameters: [
+      {
+      title: "Note",
+      values: allNotes
+}
     ]
   }
 ]
@@ -145,14 +166,11 @@ export default class Scale extends React.Component {
 
     return (
       <div>
-        <pre>
-        {JSON.stringify(s,null,2)}
-      </pre>
         <Slider labels={{
           120: "BPM"
         }} min={90} max={160} value={s.bpm} onChange={this.setStateValue('bpm')}/>
         <Selector onChange={this.setStateValue('key')} values={keys} value={s.key} title="Key Signature"/>
-        <Selector onChange={this.setStateValue('interval')} values={intervals} value={s.interval} title="Intervals"/>
+        <Selector onChange={this.setStateValue('interval')} values={intervals} value={s.interval} title="Note Length"/>
         <Selector onChange={this.setStateValue('octave')} values={[2, 3, 4, 5]} value={s.octave} title="Octave"/>
         <Selector onChange={this.setStateValue('count')} values={[1, 2, 3]} value={s.count} title="Number of octaves"/>
         <FormControlLabel control={< Checkbox checked = {
